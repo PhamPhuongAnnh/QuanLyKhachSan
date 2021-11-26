@@ -175,10 +175,10 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_nhapThongTinKhachHangActionPerformed
 
     private void DatPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DatPhongActionPerformed
-        DatPhong datPhong = new DatPhong();
-        datPhong.setVisible(true);
-        datPhong.pack();
-        datPhong.setLocationRelativeTo(null);
+        DatPhongView dp = new DatPhongView();
+        dp.setVisible(true);
+        dp.pack();
+        dp.setLocationRelativeTo(null);
     }//GEN-LAST:event_DatPhongActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -194,7 +194,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void ThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ThanhToanActionPerformed
-        
+
     }//GEN-LAST:event_ThanhToanActionPerformed
 
     /**

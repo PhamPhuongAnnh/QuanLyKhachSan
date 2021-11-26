@@ -6,15 +6,20 @@
 package testproject.view;
 
 import com.opencsv.exceptions.CsvValidationException;
+import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import testproject.model.DocGhiFile;
+import testproject.model.MaPhongComparator;
 import testproject.model.Phong;
+import testproject.model.TangComparator;
+import testproject.model.giaComparator;
 
 /**
  *
@@ -25,14 +30,14 @@ public class NhapThongTinPhong extends javax.swing.JFrame {
     /**
      * Creates new form NhapThongTinPhong
      */
-    DefaultTableModel tableModel;
-    int id = 0;
-    List<Phong> listPhong = new ArrayList<>();
-    DocGhiFile docGhiFile = new DocGhiFile();
+    private DefaultTableModel tableModel;
+    private int id = 0;
+    private List<Phong> listPhong = new ArrayList<>();
+    private DocGhiFile docGhiFile = new DocGhiFile();
     private static final String curentDir = System.getProperty("user.dir");
     private static final String separator = File.separator;
     private static final String PATH_FILE_CSV_Phong = curentDir + separator + "data" + separator + "Phong.csv";
-    public static File file = new File(PATH_FILE_CSV_Phong);
+    private static File file = new File(PATH_FILE_CSV_Phong);
 
     public NhapThongTinPhong() {
         this.dispose();
@@ -65,12 +70,21 @@ public class NhapThongTinPhong extends javax.swing.JFrame {
             tableModel.addRow(new Object[]{maPhong, SoTang, sucChua, trangThai, giaPhong});
         }
     }
-    
-    public void resetForm(){
+
+    public void resetForm() {
         txtGiaPhong.setText("");
         txtLoaiPhong.setText("");
         txtSoTang.setText("");
         txtTimKiem.setText("");
+    }
+
+    public static boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -94,6 +108,7 @@ public class NhapThongTinPhong extends javax.swing.JFrame {
         btnTimKiem = new javax.swing.JButton();
         txtTimKiem = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        boxSapXep = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -189,7 +204,7 @@ public class NhapThongTinPhong extends javax.swing.JFrame {
         });
 
         btnLocThongTin.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnLocThongTin.setText("Lọc thông tin");
+        btnLocThongTin.setText("Sắp xếp");
         btnLocThongTin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLocThongTinActionPerformed(evt);
@@ -212,6 +227,11 @@ public class NhapThongTinPhong extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        tblPhong.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblPhongMouseClicked(evt);
+            }
+        });
         tablePhong.setViewportView(tblPhong);
         if (tblPhong.getColumnModel().getColumnCount() > 0) {
             tblPhong.getColumnModel().getColumn(0).setMinWidth(100);
@@ -228,6 +248,7 @@ public class NhapThongTinPhong extends javax.swing.JFrame {
             }
         });
 
+        txtTimKiem.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtTimKiem.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtTimKiemFocusLost(evt);
@@ -240,7 +261,10 @@ public class NhapThongTinPhong extends javax.swing.JFrame {
         });
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel7.setText("Tìm kiếm: ");
+        jLabel7.setText("Chức năng:");
+
+        boxSapXep.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        boxSapXep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ma Phong", "Gia", "Tang", "Gia Tang", "Tang Gia" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -266,24 +290,23 @@ public class NhapThongTinPhong extends javax.swing.JFrame {
                 .addGap(64, 64, 64)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7))
+                        .addGap(31, 31, 31)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtGiaPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(26, 26, 26))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel7)
-                                .addGap(18, 18, 18)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtGiaPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(boxSapXep, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(xoa)
                         .addGap(61, 61, 61)
                         .addComponent(btnTimKiem)
                         .addGap(68, 68, 68)
                         .addComponent(btnLocThongTin)))
-                .addContainerGap(112, Short.MAX_VALUE))
+                .addContainerGap(154, Short.MAX_VALUE))
             .addComponent(tablePhong)
         );
         layout.setVerticalGroup(
@@ -305,16 +328,15 @@ public class NhapThongTinPhong extends javax.swing.JFrame {
                                     .addGap(11, 11, 11)
                                     .addComponent(jLabel6))
                                 .addComponent(txtGiaPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(26, 26, 26)
-                                    .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addGap(39, 39, 39)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGap(26, 26, 26)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                                .addComponent(boxSapXep)))
                         .addGroup(layout.createSequentialGroup()
                             .addGap(67, 67, 67)
-                            .addComponent(txtLoaiPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtLoaiPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ThemThongTin)
@@ -342,21 +364,138 @@ public class NhapThongTinPhong extends javax.swing.JFrame {
     }//GEN-LAST:event_txtGiaPhongActionPerformed
 
     private void ChinhSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChinhSuaActionPerformed
+        StringBuilder sb = new StringBuilder();
+        if (txtGiaPhong.getText().equals("")) {
+            sb.append("Mã sinh viên không được để trống\n");
+        }
+        if (txtLoaiPhong.getText().equals("")) {
+            sb.append("Loại phòng không được để trống\n");
+        }
+        if (txtSoTang.getText().equals("")) {
+            sb.append("Số tầng không được để trống\n");
+        }
+        if (sb.length() > 0) {
+            JOptionPane.showMessageDialog(rootPane,
+                    sb.toString(), "Backup problem", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-        ChinhSuaThongTinPhong.main();
-        this.setVisible(false);
+        int choice = JOptionPane.showConfirmDialog(rootPane, "Bạn có muốn chỉnh sửa thông tin không?", "Hỏi", JOptionPane.YES_NO_OPTION);
+        if (choice == JOptionPane.NO_OPTION) {
+            return;
+        }
+        int soTang = Integer.parseInt(txtSoTang.getText());
+        double giaPhong = Double.parseDouble(txtGiaPhong.getText());
+        int loaiPhong = Integer.parseInt(txtLoaiPhong.getText());
+        int check = 0;
+        int selectedRow = tblPhong.getSelectedRow();
+        String maPhong = (String) tblPhong.getValueAt(selectedRow, 0);
+        for (Phong item : listPhong) {
+            if (item.getMaPhong().equals(maPhong)) {
+                item.setSoTang(soTang);
+                item.setGiaPhong(giaPhong);
+                item.setLoaiPhong(loaiPhong);
+                check = 1;
+                break;
+            }
+        }
+        if (check == 1) {
+            file.delete();
+            docGhiFile.ghiFilePhong(listPhong);
+            hienTHi(listPhong);
+            resetForm();
+            JOptionPane.showMessageDialog(rootPane, "Sửa thành công");
+        } else {
+            JOptionPane.showMessageDialog(rootPane,
+                    "Thông tin phòng không tồn tại", "Backup problem", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_ChinhSuaActionPerformed
 
     private void xoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xoaActionPerformed
-        // TODO add your handling code here:
+       
+        int selectedRow = tblPhong.getSelectedRow();
+        String maPhong = (String) tblPhong.getValueAt(selectedRow, 0);
+        int choice = JOptionPane.showConfirmDialog(rootPane, "Bạn có muốn xóa  thông tin phòng  không?", "Hỏi", JOptionPane.YES_NO_OPTION);
+        if (choice == JOptionPane.NO_OPTION) {
+            return;
+        }
+        int check = 0;
+        for (int i = 0; i < listPhong.size(); i++) {
+            if (listPhong.get(i).getMaPhong().equals(maPhong)) {
+                listPhong.remove(listPhong.get(i));
+                check = 1;
+                break;
+            }
+        }
+        if (check == 1) {
+            file.delete();
+            docGhiFile.ghiFilePhong(listPhong);
+            hienTHi(listPhong);
+            resetForm();
+            JOptionPane.showMessageDialog(rootPane, "Xóa thành công");
+        } else {
+            JOptionPane.showMessageDialog(rootPane,
+                    "Thông tin phòng không tồn tại", "Backup problem", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_xoaActionPerformed
 
     private void btnLocThongTinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLocThongTinActionPerformed
-        // TODO add your handling code here:
+        if (boxSapXep.getSelectedItem().toString().equals("Tang")) {
+            Collections.sort(listPhong, new TangComparator());
+            hienTHi(listPhong);
+        } else if (boxSapXep.getSelectedItem().toString().equals("Gia")) {
+            Collections.sort(listPhong, new giaComparator());
+            hienTHi(listPhong);
+        } else if (boxSapXep.getSelectedItem().toString().equals("Tang Gia")) {
+            Collections.sort(listPhong, new TangComparator().thenComparing(new giaComparator()));
+            hienTHi(listPhong);
+        } else if (boxSapXep.getSelectedItem().toString().equals("Gia Tang")) {
+            Collections.sort(listPhong, new giaComparator().thenComparing(new TangComparator()));
+            hienTHi(listPhong);
+        } else if (boxSapXep.getSelectedItem().toString().equals("Ma Phong")) {
+            Collections.sort(listPhong, new MaPhongComparator());
+            hienTHi(listPhong);
+        } 
+        else {
+            JOptionPane.showMessageDialog(rootPane,
+                    "Hãy nhập thông tin vào ô chức năng\nCó thể sắp xếp theo tăng dần tầng và theo giá\nVí dụ: tang là sắp xếp theo tầng", "Backup problem", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnLocThongTinActionPerformed
 
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
-        // TODO add your handling code here:
+        boolean flag = false;
+        tableModel.setRowCount(0);
+        if (isNumeric(txtTimKiem.getText()) == false) {
+            for (Phong item : listPhong) {
+                if (item.getMaPhong().equals(txtTimKiem.getText())) {
+                    tableModel.addRow(new Object[]{item.getMaPhong(), item.getSoTang(), item.getLoaiPhong(), item.getTrangThai(), item.getGiaPhong()});
+                }
+                if (item.getTrangThai().equals(txtTimKiem.getText())) {
+                    tableModel.addRow(new Object[]{item.getMaPhong(), item.getSoTang(), item.getLoaiPhong(), item.getTrangThai(), item.getGiaPhong()});
+                }
+                flag = true;
+            }
+            if (flag == false) {
+                JOptionPane.showMessageDialog(rootPane,
+                        "Thông tin phòng không tồn tại", "Backup problem", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            for (Phong item : listPhong) {
+                if (item.getSoTang() == Integer.parseInt(txtTimKiem.getText())) {
+                    tableModel.addRow(new Object[]{item.getMaPhong(), item.getSoTang(), item.getLoaiPhong(), item.getTrangThai(), item.getGiaPhong()});
+                }
+                if (item.getGiaPhong() == Integer.parseInt(txtTimKiem.getText())) {
+                    tableModel.addRow(new Object[]{item.getMaPhong(), item.getSoTang(), item.getLoaiPhong(), item.getTrangThai(), item.getGiaPhong()});
+                }
+
+                flag = true;
+            }
+            if (flag == false) {
+                JOptionPane.showMessageDialog(rootPane,
+                        "Thông tin phòng không tồn tại", "Backup problem", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+
     }//GEN-LAST:event_btnTimKiemActionPerformed
 
     private void txtTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimKiemActionPerformed
@@ -364,8 +503,33 @@ public class NhapThongTinPhong extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTimKiemActionPerformed
 
     private void ThemThongTinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ThemThongTinActionPerformed
+
+        StringBuilder sb = new StringBuilder();
+        if (txtGiaPhong.getText().equals("")) {
+            sb.append("Mã phòng không được để trống\n");
+        }
+        if (txtLoaiPhong.getText().equals("")) {
+            sb.append("Loại phòng không được để trống\n");
+        }
+        if (txtSoTang.getText().equals("")) {
+            sb.append("Số tầng không được để trống\n");
+        }
+        if (sb.length() > 0) {
+            JOptionPane.showMessageDialog(rootPane,
+                    sb.toString(), "Backup problem", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        //kiểm tra sau khi xóa 
+        int max = 0;
+        for (Phong item : listPhong) {
+            if (Integer.parseInt(item.getMaPhong().substring(2)) > max) {
+                max = Integer.parseInt(item.getMaPhong().substring(2));
+                id = max + 1;
+            }
+        }
+
         String maPhong = "MP" + id++;
-        System.out.println(maPhong);
         int soTang = Integer.parseInt(txtSoTang.getText());
         int loaiPhong = Integer.parseInt(txtLoaiPhong.getText());
         double giaPhong = Double.parseDouble(txtGiaPhong.getText());
@@ -373,44 +537,49 @@ public class NhapThongTinPhong extends javax.swing.JFrame {
         Phong phong = new Phong(maPhong, soTang, soTang, trangThai, giaPhong);
         listPhong.add(phong);
         tableModel.addRow(new Object[]{maPhong, soTang, loaiPhong, trangThai, giaPhong});
+        file.delete();
+        docGhiFile.ghiFilePhong(listPhong);
         resetForm();
     }//GEN-LAST:event_ThemThongTinActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        JOptionPane.showMessageDialog(rootPane,
-                "Danh sách đã được ghi vào file", "Backup problem", JOptionPane.WARNING_MESSAGE);
-        file.delete();
-        docGhiFile.ghiFilePhong(listPhong);
+        int choice = JOptionPane.showConfirmDialog(rootPane, "Bạn có muốn Lưu thông tin vào file không?", "Hỏi", JOptionPane.YES_NO_OPTION);
+        if (choice == JOptionPane.YES_OPTION) {
+            file.delete();
+            docGhiFile.ghiFilePhong(listPhong);
+        }
     }//GEN-LAST:event_formWindowClosing
 
     private void txtSoTangFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSoTangFocusLost
-        if (txtSoTang.getText().equals("")) {
-            JOptionPane.showMessageDialog(rootPane,
-                    "Không được để trống", "Backup problem", JOptionPane.WARNING_MESSAGE);
-        }
+
     }//GEN-LAST:event_txtSoTangFocusLost
 
     private void txtLoaiPhongFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtLoaiPhongFocusLost
-        if (txtLoaiPhong.getText().equals("")) {
-            JOptionPane.showMessageDialog(rootPane,
-                    "Không được để trống", "Backup problem", JOptionPane.WARNING_MESSAGE);
-        }
+
     }//GEN-LAST:event_txtLoaiPhongFocusLost
 
     private void txtGiaPhongFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtGiaPhongFocusLost
-        if (txtGiaPhong.getText().equals("")) {
-            JOptionPane.showMessageDialog(rootPane,
-                    "Không được để trống", "Backup problem", JOptionPane.WARNING_MESSAGE);
-        }
+
     }//GEN-LAST:event_txtGiaPhongFocusLost
 
     private void txtTimKiemFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTimKiemFocusLost
-        if (txtTimKiem.getText().equals("")) {
-            JOptionPane.showMessageDialog(rootPane,
-                    "Hãy nhập mã phòng cần tìm kiếm", "Backup problem", JOptionPane.WARNING_MESSAGE);
-        }
-        
+
     }//GEN-LAST:event_txtTimKiemFocusLost
+
+    private void tblPhongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPhongMouseClicked
+        int selectedRow = tblPhong.getSelectedRow();
+        if (selectedRow >= 0) {
+            String maPhong = (String) tblPhong.getValueAt(selectedRow, 0);
+            for (Phong item : listPhong) {
+                if (item.getMaPhong().equals(maPhong)) {
+                    txtSoTang.setText(Integer.toString(item.getSoTang()));
+                    txtLoaiPhong.setText(Integer.toString(item.getLoaiPhong()));
+                    txtGiaPhong.setText(Double.toString(item.getGiaPhong()));
+                    break;
+                }
+            }
+        }
+    }//GEN-LAST:event_tblPhongMouseClicked
 
     /**
      * @param args the command line arguments
@@ -450,6 +619,7 @@ public class NhapThongTinPhong extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ChinhSua;
     private javax.swing.JButton ThemThongTin;
+    private javax.swing.JComboBox<String> boxSapXep;
     private javax.swing.JButton btnLocThongTin;
     private javax.swing.JButton btnTimKiem;
     private javax.swing.JLabel jLabel1;
