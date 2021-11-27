@@ -601,16 +601,12 @@ public class NhapThongTinKhachHang extends javax.swing.JFrame {
                 break;
             }
         }
-        if (check == 1) {
-            f.delete();
-            docGhiFile.ghiFileKhachHang(listKH);
-            hienThi(listKH);
-            resetForm();
-            JOptionPane.showMessageDialog(rootPane, "Xóa thành công");
-        } else {
-            JOptionPane.showMessageDialog(rootPane,
-                    "Thông tin khách hàng không tồn tại", "Backup problem", JOptionPane.WARNING_MESSAGE);
-        }
+
+        f.delete();
+        docGhiFile.ghiFileKhachHang(listKH);
+        hienThi(listKH);
+        resetForm();
+        JOptionPane.showMessageDialog(rootPane, "Xóa thành công");
     }//GEN-LAST:event_btnXoaActionPerformed
 
     /**
