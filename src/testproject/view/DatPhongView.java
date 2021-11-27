@@ -98,7 +98,7 @@ public class DatPhongView extends javax.swing.JFrame {
             tableModel.addRow(new Object[]{maDatPhong, maphong, maKhachHang, ngayDat1, ngayTra1, tongTien});
         }
     }
-     
+
     public void chuyenTrangThai(List<Phong> DanhSachDatPhong) {
         for (Phong item : DanhSachDatPhong) {
             if (item.getMaPhong().equals(txtMaPhong.getText())) {
@@ -392,6 +392,11 @@ public class DatPhongView extends javax.swing.JFrame {
 
         btnThanhToan.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnThanhToan.setText("Thanh Toán");
+        btnThanhToan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThanhToanActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -416,7 +421,7 @@ public class DatPhongView extends javax.swing.JFrame {
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5)
@@ -434,9 +439,9 @@ public class DatPhongView extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(98, 98, 98)
                         .addComponent(btnSapXep)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                        .addGap(36, 36, 36)
                         .addComponent(btnThemThongTin)
-                        .addGap(72, 72, 72)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                         .addComponent(btnChinhSua)
                         .addGap(39, 39, 39)
                         .addComponent(btnXoa)
@@ -660,7 +665,6 @@ public class DatPhongView extends javax.swing.JFrame {
         if (flagFinding == false) {
             JOptionPane.showMessageDialog(rootPane,
                     "Thông tin dạt phòng không tồn tại", "Backup problem", JOptionPane.WARNING_MESSAGE);
-
         }
     }//GEN-LAST:event_btnTimKiemActionPerformed
 
@@ -726,12 +730,38 @@ public class DatPhongView extends javax.swing.JFrame {
 
     private void btnKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKhachHangActionPerformed
         NhapThongTinKhachHang.main();
-        
+
     }//GEN-LAST:event_btnKhachHangActionPerformed
 
+    private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
+        int selectedRow = tblDatPhong.getSelectedRow();
+        if (selectedRow >= 0) {
+            String maDatPhong = (String) tblDatPhong.getValueAt(selectedRow, 0);
+            String maPhong = (String) tblDatPhong.getValueAt(selectedRow, 1);
+            for (DatPhong item : danhSachDatPhong) {
+                if (maDatPhong.equals(item.getMaDatPhong())) {
+                    danhSachDatPhong.remove(item);
+                    JOptionPane.showConfirmDialog(null, "Đã thanh toán thành công\nXin cảm ơn", "Thông báo", JOptionPane.CLOSED_OPTION);
+                    for (Phong item1 : danhSachPhong) {
+                        if (item1.getMaPhong().equals(maPhong)) {
+                            item1.setTrangThai("Con Trong");
+                        }
+                    }
+                    break;
+                }
+            }
+            fP.delete();
+            dc.ghiFilePhong(danhSachPhong);
+            fDP.delete();
+            dc.ghiFileDatPhong(danhSachDatPhong);
+            hienThiDatPhong(danhSachDatPhong);
+        }
+        
+    }//GEN-LAST:event_btnThanhToanActionPerformed
+
     /**
-     * @param args the command line arguments
-     */
+         * @param args the command line arguments
+         */
     public static void main() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
