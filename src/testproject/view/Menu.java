@@ -37,7 +37,7 @@ public class Menu extends javax.swing.JFrame {
         nhapThongTinPhong = new javax.swing.JButton();
         nhapThongTinKhachHang = new javax.swing.JButton();
         DatPhong = new javax.swing.JButton();
-        ThanhToan = new javax.swing.JButton();
+        DoanhTHu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -108,11 +108,11 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        ThanhToan.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        ThanhToan.setText("Thanh toán");
-        ThanhToan.addActionListener(new java.awt.event.ActionListener() {
+        DoanhTHu.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        DoanhTHu.setText("Doanh Thu");
+        DoanhTHu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ThanhToanActionPerformed(evt);
+                DoanhTHuActionPerformed(evt);
             }
         });
 
@@ -124,7 +124,7 @@ public class Menu extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(286, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(DoanhTHu, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(DatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(nhapThongTinKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(nhapThongTinPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -141,7 +141,7 @@ public class Menu extends javax.swing.JFrame {
                 .addGap(50, 50, 50)
                 .addComponent(DatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50)
-                .addComponent(ThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(DoanhTHu, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 248, Short.MAX_VALUE))
         );
 
@@ -182,25 +182,32 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_DatPhongActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        JOptionPane.showMessageDialog(rootPane,
-                "Nhấn OK để có thể tắt chương trình", "Backup problem", JOptionPane.ERROR_MESSAGE);
-//         JFrame frame = new JFrame();
-//         JOptionPane.showInputDialog(frame, "bạn nhạp gì");
+
     }//GEN-LAST:event_formWindowClosing
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-//        JOptionPane.showMessageDialog(rootPane,
-//                "Đóng chương trình", "Backup problem", JOptionPane.ERROR_MESSAGE);
+        int choice = JOptionPane.showConfirmDialog(rootPane, "Bạn có muốn đăng xuất phải không?", "Hỏi", JOptionPane.YES_NO_OPTION);
+        if (choice == JOptionPane.NO_OPTION) {
+            this.setVisible(true);
+            return;
+        }
+        else{
+            DangNhap dn = new DangNhap();
+            dn.setVisible(true);
+        }
     }//GEN-LAST:event_formWindowClosed
 
-    private void ThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ThanhToanActionPerformed
-
-    }//GEN-LAST:event_ThanhToanActionPerformed
+    private void DoanhTHuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoanhTHuActionPerformed
+        DoanhThu dt = new DoanhThu();
+        dt.setVisible(true);
+        dt.pack();
+        dt.setLocationRelativeTo(null);
+    }//GEN-LAST:event_DoanhTHuActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -234,7 +241,7 @@ public class Menu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton DatPhong;
-    private javax.swing.JButton ThanhToan;
+    private javax.swing.JButton DoanhTHu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton nhapThongTinKhachHang;

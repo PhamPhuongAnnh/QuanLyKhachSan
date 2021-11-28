@@ -32,23 +32,23 @@ public class DatPhongView extends javax.swing.JFrame {
     /**
      * Creates new form DatPhongView
      */
-    DefaultTableModel tableModel;
-    int id = 0;
+    private DefaultTableModel tableModel;
+    private int id = 0;
     private static final String curentDir = System.getProperty("user.dir");
     private static final String separator = File.separator;
     private static final String PATH_FILE_CSV_DATPHONG = curentDir + separator + "data" + separator + "DatPhong.csv";
     private static final String PATH_FILE_CSV_khachHang = curentDir + separator + "data" + separator + "KhachHang.csv";
     private static final String PATH_FILE_CSV_Phong = curentDir + separator + "data" + separator + "Phong.csv";
 
-    DateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-    DocGhiFile dc = new DocGhiFile();
-    List<DatPhong> danhSachDatPhong = new ArrayList<>();
-    List<KhachHang> danhSachKhaHang = new ArrayList<>();
-    List<Phong> danhSachPhong = new ArrayList<>();
+    private DateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    private DocGhiFile dc = new DocGhiFile();
+    private List<DatPhong> listDatPhong = new ArrayList<>();
+    private List<KhachHang> listKH = new ArrayList<>();
+    private List<Phong> listPhong = new ArrayList<>();
 
-    File fKH = new File(PATH_FILE_CSV_khachHang);
-    File fDP = new File(PATH_FILE_CSV_DATPHONG);
-    File fP = new File(PATH_FILE_CSV_Phong);
+    private File fKH = new File(PATH_FILE_CSV_khachHang);
+    private File fDP = new File(PATH_FILE_CSV_DATPHONG);
+    private File fP = new File(PATH_FILE_CSV_Phong);
 
     public DatPhongView() {
         initComponents();
@@ -57,10 +57,10 @@ public class DatPhongView extends javax.swing.JFrame {
 
         if (fDP.exists()) {
             try {
-                danhSachDatPhong = dc.docFileDatPhong();
-                String ma = danhSachDatPhong.get(danhSachDatPhong.size() - 1).getMaDatPhong();
+                listDatPhong = dc.docFileDatPhong();
+                String ma = listDatPhong.get(listDatPhong.size() - 1).getMaDatPhong();
                 id = Integer.parseInt(ma.substring(2)) + 1;
-                hienThiDatPhong(danhSachDatPhong);
+                hienThiDatPhong(listDatPhong);
             } catch (CsvValidationException ex) {
                 Logger.getLogger(DatPhongView.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ParseException ex) {
@@ -69,7 +69,7 @@ public class DatPhongView extends javax.swing.JFrame {
         }
         if (fKH.exists()) {
             try {
-                danhSachKhaHang = dc.docFileKhachHang();
+                listKH = dc.docFileKhachHang();
 
             } catch (CsvValidationException ex) {
                 Logger.getLogger(DatPhongView.class.getName()).log(Level.SEVERE, null, ex);
@@ -77,16 +77,16 @@ public class DatPhongView extends javax.swing.JFrame {
         }
         if (fP.exists()) {
             try {
-                danhSachPhong = dc.docFilePhong();
+                listPhong = dc.docFilePhong();
             } catch (CsvValidationException ex) {
                 Logger.getLogger(DatPhongView.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
 
-    public void hienThiDatPhong(List<DatPhong> danhSachDatPhong) {
+    public void hienThiDatPhong(List<DatPhong> listDatPhong) {
         tableModel.setRowCount(0);
-        for (DatPhong item : danhSachDatPhong) {
+        for (DatPhong item : listDatPhong) {
             String maDatPhong = item.getMaDatPhong();
             String maphong = item.getMaPhong();
             String maKhachHang = item.getMaKhachHang();
@@ -106,12 +106,12 @@ public class DatPhongView extends javax.swing.JFrame {
             }
         }
         fP.delete();
-        dc.ghiFilePhong(danhSachPhong);
+        dc.ghiFilePhong(listPhong);
     }
 
     public boolean kiemTraMaPhong() {
         boolean flag = false;
-        for (Phong item : danhSachPhong) {
+        for (Phong item : listPhong) {
             if (item.getMaPhong().equals(txtMaPhong.getText())) {
                 flag = true;
             }
@@ -125,7 +125,7 @@ public class DatPhongView extends javax.swing.JFrame {
 
     public boolean kiemTraMaKhachHang() {
         boolean flag = false;
-        for (KhachHang item : danhSachKhaHang) {
+        for (KhachHang item : listKH) {
             if (item.getMaKhachHang().equals(txtMaKhachHang.getText())) {
                 flag = true;
             }
@@ -138,7 +138,7 @@ public class DatPhongView extends javax.swing.JFrame {
     }
 
     public boolean kiemTraTrangThai() {
-        for (Phong item : danhSachPhong) {
+        for (Phong item : listPhong) {
             if (item.getTrangThai().equals("Con Trong")) {
                 return true;
             }
@@ -179,9 +179,9 @@ public class DatPhongView extends javax.swing.JFrame {
         txtMaPhong.setText("");
         if (fKH.exists() && fDP.exists() && fP.exists()) {
             try {
-                danhSachDatPhong = dc.docFileDatPhong();
-                hienThiDatPhong(danhSachDatPhong);
-                String ma = danhSachDatPhong.get(danhSachDatPhong.size() - 1).getMaDatPhong();
+                listDatPhong = dc.docFileDatPhong();
+                hienThiDatPhong(listDatPhong);
+                String ma = listDatPhong.get(listDatPhong.size() - 1).getMaDatPhong();
                 id = Integer.parseInt(ma.substring(2)) + 1;
             } catch (CsvValidationException ex) {
                 Logger.getLogger(DatPhongView.class.getName()).log(Level.SEVERE, null, ex);
@@ -189,12 +189,12 @@ public class DatPhongView extends javax.swing.JFrame {
                 Logger.getLogger(DatPhongView.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
-                danhSachKhaHang = dc.docFileKhachHang();
+                listKH = dc.docFileKhachHang();
             } catch (CsvValidationException ex) {
                 Logger.getLogger(DatPhongView.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
-                danhSachPhong = dc.docFilePhong();
+                listPhong = dc.docFilePhong();
             } catch (CsvValidationException ex) {
                 Logger.getLogger(DatPhongView.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -534,7 +534,7 @@ public class DatPhongView extends javax.swing.JFrame {
             txtMaPhong.requestFocus();
             return;
         }
-        if (kiemTraTrangThai() == true) {
+        if (kiemTraTrangThai() == false) {
             JOptionPane.showMessageDialog(rootPane,
                     "Phòng đã được đặt Mời nhập lại", "Backup problem", JOptionPane.WARNING_MESSAGE);
             txtMaPhong.requestFocus();
@@ -542,7 +542,7 @@ public class DatPhongView extends javax.swing.JFrame {
         }
 
         int max = 0;
-        for (DatPhong item : danhSachDatPhong) {
+        for (DatPhong item : listDatPhong) {
             if (Integer.parseInt(item.getMaDatPhong().substring(2)) > max) {
                 max = Integer.parseInt(item.getMaDatPhong().substring(2));
                 id = max + 1;
@@ -550,7 +550,7 @@ public class DatPhongView extends javax.swing.JFrame {
         }
         String MaDatPhong = "DP" + id++;
         String MaPhong = txtMaPhong.getText();
-        chuyenTrangThai(danhSachPhong);
+        chuyenTrangThai(listPhong);
         String maKhachHang = txtMaKhachHang.getText();
         Date NgayDat = txtNgayDat.getDate();
         String ngayDat = df.format(NgayDat);
@@ -563,7 +563,7 @@ public class DatPhongView extends javax.swing.JFrame {
         double thoiGian = phut / 60 + gio;
 
         double giaPhong = 0;
-        for (Phong item : danhSachPhong) {
+        for (Phong item : listPhong) {
             if (item.getMaPhong().equals(txtMaPhong.getText())) {
                 giaPhong = item.getGiaPhong();
                 System.out.println(giaPhong);
@@ -573,10 +573,10 @@ public class DatPhongView extends javax.swing.JFrame {
         double TongTIen = tinhTongTien(thoiGian, giaPhong);
         ////////////////////////
         DatPhong datPhong = new DatPhong(MaDatPhong, MaPhong, maKhachHang, NgayDat, NgayTra, TongTIen);
-        danhSachDatPhong.add(datPhong);
+        listDatPhong.add(datPhong);
         tableModel.addRow(new Object[]{MaDatPhong, MaPhong, maKhachHang, ngayDat, ngayTra, TongTIen});
         fDP.delete();
-        dc.ghiFileDatPhong(danhSachDatPhong);
+        dc.ghiFileDatPhong(listDatPhong);
         resetForm();
     }//GEN-LAST:event_btnThemThongTinActionPerformed
 
@@ -584,7 +584,7 @@ public class DatPhongView extends javax.swing.JFrame {
         int selectedRow = tblDatPhong.getSelectedRow();
         if (selectedRow >= 0) {
             String maDatPhong = (String) tblDatPhong.getValueAt(selectedRow, 0);
-            for (DatPhong item : danhSachDatPhong) {
+            for (DatPhong item : listDatPhong) {
                 if (maDatPhong.equals(item.getMaDatPhong())) {
                     item.setMaPhong(txtMaPhong.getText());
                     item.setMaKhachHang(txtMaKhachHang.getText());
@@ -594,8 +594,8 @@ public class DatPhongView extends javax.swing.JFrame {
                 }
             }
             fDP.delete();
-            dc.ghiFileDatPhong(danhSachDatPhong);
-            hienThiDatPhong(danhSachDatPhong);
+            dc.ghiFileDatPhong(listDatPhong);
+            hienThiDatPhong(listDatPhong);
             resetForm();
         }
     }//GEN-LAST:event_btnChinhSuaActionPerformed
@@ -604,14 +604,14 @@ public class DatPhongView extends javax.swing.JFrame {
         int selectedRow = tblDatPhong.getSelectedRow();
         if (selectedRow >= 0) {
             String maDatPhong = (String) tblDatPhong.getValueAt(selectedRow, 0);
-            for (DatPhong item : danhSachDatPhong) {
+            for (DatPhong item : listDatPhong) {
                 if (maDatPhong.equals(item.getMaDatPhong())) {
-                    danhSachDatPhong.remove(item);
+                    listDatPhong.remove(item);
                     break;
                 }
             }
             String maPhong = (String) tblDatPhong.getValueAt(selectedRow, 1);
-            for (Phong item : danhSachPhong) {
+            for (Phong item : listPhong) {
                 if (item.getMaPhong().equals(maPhong)) {
                     item.setTrangThai("Con Trong");
                     break;
@@ -619,10 +619,10 @@ public class DatPhongView extends javax.swing.JFrame {
             }
             fP.delete();
             JOptionPane.showMessageDialog(rootPane, "Xóa thành công");
-            dc.ghiFilePhong(danhSachPhong);
+            dc.ghiFilePhong(listPhong);
             fDP.delete();
-            dc.ghiFileDatPhong(danhSachDatPhong);
-            hienThiDatPhong(danhSachDatPhong);
+            dc.ghiFileDatPhong(listDatPhong);
+            hienThiDatPhong(listDatPhong);
             resetForm();
         }
     }//GEN-LAST:event_btnXoaActionPerformed
@@ -631,7 +631,7 @@ public class DatPhongView extends javax.swing.JFrame {
         String textFinding = txtTimKiem.getText();
         tableModel.setRowCount(0);
         boolean flagFinding = false;
-        for (DatPhong item : danhSachDatPhong) {
+        for (DatPhong item : listDatPhong) {
             if (item.getMaDatPhong().equals(textFinding)) {
                 String maDatPhong = item.getMaDatPhong();
                 String maPhong = item.getMaPhong();
@@ -670,7 +670,7 @@ public class DatPhongView extends javax.swing.JFrame {
 
     private void btnSapXepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSapXepActionPerformed
         if (boxSapXep.getSelectedItem().equals("Ma Phong")) {
-            Collections.sort(danhSachDatPhong, new Comparator<DatPhong>() {
+            Collections.sort(listDatPhong, new Comparator<DatPhong>() {
                 @Override
                 public int compare(DatPhong o1, DatPhong o2) {
                     int item1 = Integer.parseInt(o1.getMaPhong().substring(2));
@@ -680,7 +680,7 @@ public class DatPhongView extends javax.swing.JFrame {
 
             });
         } else if (boxSapXep.getSelectedItem().equals("Ma KH")) {
-            Collections.sort(danhSachDatPhong, new Comparator<DatPhong>() {
+            Collections.sort(listDatPhong, new Comparator<DatPhong>() {
                 @Override
                 public int compare(DatPhong o1, DatPhong o2) {
                     int item1 = Integer.parseInt(o1.getMaKhachHang().substring(2));
@@ -689,14 +689,14 @@ public class DatPhongView extends javax.swing.JFrame {
                 }
             });
         } else if (boxSapXep.getSelectedItem().equals("Tong Tien")) {
-            Collections.sort(danhSachDatPhong, new Comparator<DatPhong>() {
+            Collections.sort(listDatPhong, new Comparator<DatPhong>() {
                 @Override
                 public int compare(DatPhong o1, DatPhong o2) {
                     return o1.getTongTien() > o2.getTongTien() ? 1 : -1;
                 }
             });
         } else if (boxSapXep.getSelectedItem().equals("Ma Dat Phong")) {
-            Collections.sort(danhSachDatPhong, new Comparator<DatPhong>() {
+            Collections.sort(listDatPhong, new Comparator<DatPhong>() {
                 @Override
                 public int compare(DatPhong o1, DatPhong o2) {
                     int item1 = Integer.parseInt(o1.getMaDatPhong().substring(2));
@@ -705,14 +705,14 @@ public class DatPhongView extends javax.swing.JFrame {
                 }
             });
         }
-        hienThiDatPhong(danhSachDatPhong);
+        hienThiDatPhong(listDatPhong);
     }//GEN-LAST:event_btnSapXepActionPerformed
 
     private void tblDatPhongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDatPhongMouseClicked
         int selectedRow = tblDatPhong.getSelectedRow();
         if (selectedRow >= 0) {
             String maDatPhong = (String) tblDatPhong.getValueAt(selectedRow, 0);
-            for (DatPhong item : danhSachDatPhong) {
+            for (DatPhong item : listDatPhong) {
                 if (item.getMaDatPhong().equals(maDatPhong)) {
                     txtMaKhachHang.setText(item.getMaKhachHang());
                     txtMaPhong.setText(item.getMaPhong());
@@ -738,11 +738,11 @@ public class DatPhongView extends javax.swing.JFrame {
         if (selectedRow >= 0) {
             String maDatPhong = (String) tblDatPhong.getValueAt(selectedRow, 0);
             String maPhong = (String) tblDatPhong.getValueAt(selectedRow, 1);
-            for (DatPhong item : danhSachDatPhong) {
+            for (DatPhong item : listDatPhong) {
                 if (maDatPhong.equals(item.getMaDatPhong())) {
-                    danhSachDatPhong.remove(item);
+                    listDatPhong.remove(item);
                     JOptionPane.showConfirmDialog(null, "Đã thanh toán thành công\nXin cảm ơn", "Thông báo", JOptionPane.CLOSED_OPTION);
-                    for (Phong item1 : danhSachPhong) {
+                    for (Phong item1 : listPhong) {
                         if (item1.getMaPhong().equals(maPhong)) {
                             item1.setTrangThai("Con Trong");
                         }
@@ -751,10 +751,10 @@ public class DatPhongView extends javax.swing.JFrame {
                 }
             }
             fP.delete();
-            dc.ghiFilePhong(danhSachPhong);
+            dc.ghiFilePhong(listPhong);
             fDP.delete();
-            dc.ghiFileDatPhong(danhSachDatPhong);
-            hienThiDatPhong(danhSachDatPhong);
+            dc.ghiFileDatPhong(listDatPhong);
+            hienThiDatPhong(listDatPhong);
         }
         
     }//GEN-LAST:event_btnThanhToanActionPerformed
