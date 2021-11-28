@@ -4,11 +4,10 @@
  */
 package testproject.model;
 
-
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
-    
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -22,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  *
  * @author phamannh
@@ -33,8 +33,9 @@ public class DocGhiFile {
     private static final String PATH_FILE_CSV = curentDir + separator + "data" + separator + "KhachHang.csv";
     private static final String PATH_FILE_CSV_Phong = curentDir + separator + "data" + separator + "Phong.csv";
     private static final String PATH_FILE_CSV_DATPHONG = curentDir + separator + "data" + separator + "DatPhong.csv";
+    private static final String PATH_FILE_CSV_DANGKY = curentDir + separator + "data" + separator + "dangky.csv";
 
-     public void ghiFileKhachHang(List<KhachHang> listKhachHang) {
+    public void ghiFileKhachHang(List<KhachHang> listKhachHang) {
         FileWriter fw = null;
         try {
             File f = new File(PATH_FILE_CSV);
@@ -51,7 +52,7 @@ public class DocGhiFile {
                 fw = new FileWriter(PATH_FILE_CSV, true);
                 CSVWriter csvWrite = new CSVWriter(fw, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
                 for (KhachHang item : listKhachHang) {
-                                        csvWrite.writeNext(new String[]{String.valueOf(item.getMaKhachHang()), item.getHoTen(), item.getCMND(), item.getSDT(), String.valueOf(item.getTuoi()), item.getPhuongThucThanhToan()});
+                    csvWrite.writeNext(new String[]{String.valueOf(item.getMaKhachHang()), item.getHoTen(), item.getCMND(), item.getSDT(), String.valueOf(item.getTuoi()), item.getPhuongThucThanhToan()});
                 }
             }
 
@@ -71,7 +72,8 @@ public class DocGhiFile {
         }
 
     }
-     public void ghiFilePhong(List<Phong> list) {
+
+    public void ghiFilePhong(List<Phong> list) {
         FileWriter fw = null;
         try {
             File f = new File(PATH_FILE_CSV_Phong);
@@ -81,7 +83,7 @@ public class DocGhiFile {
                 String[] header = {"Ma Phong", "So Tang", "Loai Phong", "Trang Thai", "Gia tien"};
                 csvWrite.writeNext(header);
                 for (Phong item : list) {
-                    csvWrite.writeNext(new String[]{String.valueOf(item.getMaPhong()), String.valueOf(item.getSoTang()), String.valueOf(item.getLoaiPhong()),String.valueOf(item.getTrangThai()), String.valueOf(item.getGiaPhong())});
+                    csvWrite.writeNext(new String[]{String.valueOf(item.getMaPhong()), String.valueOf(item.getSoTang()), String.valueOf(item.getLoaiPhong()), String.valueOf(item.getTrangThai()), String.valueOf(item.getGiaPhong())});
 
                 }
             } else {
@@ -143,7 +145,7 @@ public class DocGhiFile {
             String[] line;
             line = csvReader.readNext();
             while ((line = csvReader.readNext()) != null) {
-                Phong phong = new Phong(line[0], Integer.parseInt(line[1]), Integer.parseInt(line[2]),line[3], Double.parseDouble(line[4]));
+                Phong phong = new Phong(line[0], Integer.parseInt(line[1]), Integer.parseInt(line[2]), line[3], Double.parseDouble(line[4]));
                 list.add(phong);
 
             }
@@ -164,8 +166,9 @@ public class DocGhiFile {
         }
         return list;
     }
- public void ghiFileDatPhong(List<DatPhong> list) {
-     SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+    public void ghiFileDatPhong(List<DatPhong> list) {
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         FileWriter fw = null;
         try {
             File f = new File(PATH_FILE_CSV_DATPHONG);
@@ -175,14 +178,14 @@ public class DocGhiFile {
                 String[] header = {"Ma Dat Phong", "Ma Phong", "Ma Khach Hang", "NgayDat", "NgayTRa", "TongTien"};
                 csvWrite.writeNext(header);
                 for (DatPhong item : list) {
-                    csvWrite.writeNext(new String[]{String.valueOf(item.getMaDatPhong()), String.valueOf(item.getMaPhong()),String.valueOf(item.getMaKhachHang()),df.format(item.getNgayDat()) ,df.format(item.getNgayTra()), String.valueOf(item.getTongTien())});
+                    csvWrite.writeNext(new String[]{String.valueOf(item.getMaDatPhong()), String.valueOf(item.getMaPhong()), String.valueOf(item.getMaKhachHang()), df.format(item.getNgayDat()), df.format(item.getNgayTra()), String.valueOf(item.getTongTien())});
 
                 }
             } else {
                 fw = new FileWriter(PATH_FILE_CSV_DATPHONG, true);
                 CSVWriter csvWrite = new CSVWriter(fw, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
                 for (DatPhong item : list) {
-                    csvWrite.writeNext(new String[]{String.valueOf(item.getMaDatPhong()), String.valueOf(item.getMaPhong()),String.valueOf(item.getMaKhachHang()), df.format(item.getNgayDat()), df.format(item.getNgayTra()), String.valueOf(item.getTongTien())});
+                    csvWrite.writeNext(new String[]{String.valueOf(item.getMaDatPhong()), String.valueOf(item.getMaPhong()), String.valueOf(item.getMaKhachHang()), df.format(item.getNgayDat()), df.format(item.getNgayTra()), String.valueOf(item.getTongTien())});
 
                 }
             }
@@ -203,10 +206,11 @@ public class DocGhiFile {
         }
 
     }
-     public List<DatPhong> docFileDatPhong() throws CsvValidationException, ParseException {
-         
-         SimpleDateFormat df =new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-         
+
+    public List<DatPhong> docFileDatPhong() throws CsvValidationException, ParseException {
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
         FileReader fr = null;
         List<DatPhong> list = new ArrayList<>();
         try {
@@ -217,7 +221,7 @@ public class DocGhiFile {
             while ((line = csvReader.readNext()) != null) {
                 Date ngayDat = df.parse(line[3]);
                 Date ngayTra = df.parse(line[4]);
-                DatPhong datPhong = new DatPhong(line[0], line[1], line[2],ngayDat,ngayTra,Double.parseDouble(line[5]));
+                DatPhong datPhong = new DatPhong(line[0], line[1], line[2], ngayDat, ngayTra, Double.parseDouble(line[5]));
                 list.add(datPhong);
 
             }
@@ -239,4 +243,76 @@ public class DocGhiFile {
         return list;
     }
 
+    public void ghiFileDangKy(List<DangKy> list) {
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        FileWriter fw = null;
+        try {
+            File f = new File(PATH_FILE_CSV_DANGKY);
+            if (!f.exists()) {
+                fw = new FileWriter(PATH_FILE_CSV_DANGKY, true);
+                CSVWriter csvWrite = new CSVWriter(fw, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
+                String[] header = {"Ho", "Ten", "TenDangNhap", "MatKhau", "NgaySinh"};
+                csvWrite.writeNext(header);
+                for (DangKy item : list) {
+                    csvWrite.writeNext(new String[]{String.valueOf(item.getHo()), String.valueOf(item.getTen()), String.valueOf(item.getTenDangNhap()), String.valueOf(item.getMatKhau()), df.format(item.getNgaySinh())});
+
+                }
+            } else {
+                fw = new FileWriter(PATH_FILE_CSV_DATPHONG, true);
+                CSVWriter csvWrite = new CSVWriter(fw, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
+                for (DangKy item : list) {
+                    csvWrite.writeNext(new String[]{String.valueOf(item.getHo()), String.valueOf(item.getTen()), String.valueOf(item.getTenDangNhap()), String.valueOf(item.getMatKhau()), df.format(item.getNgaySinh())});
+                }
+            }
+
+        } catch (IOException ex) {
+            Logger.getLogger(DocGhiFile.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (fw != null) {
+                try {
+                    fw.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(DocGhiFile.class
+                            .getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+    }
+    
+    public List<DangKy> docFileDangKy() throws CsvValidationException, ParseException {
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+
+        FileReader fr = null;
+        List<DangKy> list = new ArrayList<>();
+        try {
+            fr = new FileReader(PATH_FILE_CSV_DANGKY);
+            CSVReader csvReader = new CSVReader(fr);
+            String[] line;
+            line = csvReader.readNext();
+            while ((line = csvReader.readNext()) != null) {
+                Date ngaySinh = df.parse(line[4]);
+                DangKy dangKy = new DangKy(line[0], line[1], line[2],line[3],ngaySinh);
+                list.add(dangKy);
+
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(DocGhiFile.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (fr != null) {
+                try {
+                    fr.close();
+
+                } catch (IOException ex) {
+                    Logger.getLogger(DocGhiFile.class
+                            .getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+        }
+        return list;
+    }
 }
