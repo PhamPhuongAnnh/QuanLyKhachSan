@@ -37,7 +37,9 @@ public class DoanhThu extends javax.swing.JFrame {
     private static final String PATH_FILE_CSV_khachHang = curentDir + separator + "data" + separator + "KhachHang.csv";
     private static final String PATH_FILE_CSV_Phong = curentDir + separator + "data" + separator + "Phong.csv";
 
-    private DateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    private DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+    private DateFormat df1 = new SimpleDateFormat("MM");
+
     private DocGhiFile dc = new DocGhiFile();
     private List<DatPhong> listDatPhong = new ArrayList<>();
     private List<KhachHang> listKH = new ArrayList<>();
@@ -128,13 +130,14 @@ public class DoanhThu extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblDatPhong = new javax.swing.JTable();
         txttongTien = new javax.swing.JTextField();
+        DoanhThu1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         txtNgay.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         DoanhThu.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        DoanhThu.setText("Doanh Thu");
+        DoanhThu.setText("Doanh Thu ngày");
         DoanhThu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DoanhThuActionPerformed(evt);
@@ -166,6 +169,14 @@ public class DoanhThu extends javax.swing.JFrame {
 
         txttongTien.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
+        DoanhThu1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        DoanhThu1.setText("Doanh Thu tháng");
+        DoanhThu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DoanhThu1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -177,12 +188,15 @@ public class DoanhThu extends javax.swing.JFrame {
                         .addGap(213, 213, 213)
                         .addComponent(txtNgay, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(263, 263, 263)
-                        .addComponent(DoanhThu, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(189, 189, 189)
                         .addComponent(txttongTien, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(223, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(150, Short.MAX_VALUE)
+                .addComponent(DoanhThu)
+                .addGap(38, 38, 38)
+                .addComponent(DoanhThu1)
+                .addGap(163, 163, 163))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -190,7 +204,9 @@ public class DoanhThu extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addComponent(txtNgay, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(DoanhThu, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(DoanhThu, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(DoanhThu1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
@@ -206,17 +222,48 @@ public class DoanhThu extends javax.swing.JFrame {
     }//GEN-LAST:event_tblDatPhongMouseClicked
 
     private void DoanhThuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoanhThuActionPerformed
+
+        TongTienNgay();
+        System.out.println(tongtien);
+        txttongTien.setText(String.valueOf(tongtien));
+        tableModel.setRowCount(0);
+        for (DatPhong item : listDatPhong) {
+            if (txtNgay.equals(df1.format(item.getNgayTra()))) {
+                String maDatPhong = item.getMaDatPhong();
+                String maphong = item.getMaPhong();
+                String maKhachHang = item.getMaKhachHang();
+                Date ngayDat = item.getNgayDat();
+                String ngayDat1 = df.format(ngayDat);
+                Date ngayTra = item.getNgayTra();
+                String ngayTra1 = df.format(ngayTra);
+                double tongTien = item.getTongTien();
+                tableModel.addRow(new Object[]{maDatPhong, maphong, maKhachHang, ngayDat1, ngayTra1, tongTien});
+            }
+        }
+    }//GEN-LAST:event_DoanhThuActionPerformed
+
+    private void DoanhThu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoanhThu1ActionPerformed
         if (isNumeric(txtNgay.getText()) == true) {
             TongTienThang();
             System.out.println(tongtien);
             txttongTien.setText(String.valueOf(tongtien));
-        } else {
-            TongTienNgay();
-            System.out.println(tongtien);
-            txttongTien.setText(String.valueOf(tongtien));
         }
-//        hienThiDatPhong(listDatPhong);
-    }//GEN-LAST:event_DoanhThuActionPerformed
+        tableModel.setRowCount(0);
+        for (DatPhong item : listDatPhong) {
+            if (txtNgay.equals(df.format(item.getNgayTra()))) {
+                String maDatPhong = item.getMaDatPhong();
+                String maphong = item.getMaPhong();
+                String maKhachHang = item.getMaKhachHang();
+                Date ngayDat = item.getNgayDat();
+                String ngayDat1 = df.format(ngayDat);
+                Date ngayTra = item.getNgayTra();
+                String ngayTra1 = df.format(ngayTra);
+                double tongTien = item.getTongTien();
+                tableModel.addRow(new Object[]{maDatPhong, maphong, maKhachHang, ngayDat1, ngayTra1, tongTien});
+            }
+        }
+
+    }//GEN-LAST:event_DoanhThu1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -255,6 +302,7 @@ public class DoanhThu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton DoanhThu;
+    private javax.swing.JButton DoanhThu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblDatPhong;
     private javax.swing.JTextField txtNgay;

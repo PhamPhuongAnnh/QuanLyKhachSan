@@ -58,9 +58,16 @@ public class DatPhongView extends javax.swing.JFrame {
         if (fDP.exists()) {
             try {
                 listDatPhong = dc.docFileDatPhong();
-                String ma = listDatPhong.get(listDatPhong.size() - 1).getMaDatPhong();
-                id = Integer.parseInt(ma.substring(2)) + 1;
-                hienThiDatPhong(listDatPhong);
+                if(listDatPhong.size() == 0){
+                    fDP.delete();
+                    DatPhongView dp = new DatPhongView();
+                    dp.setVisible(true);
+                }
+                else{
+                    String ma = listDatPhong.get(listDatPhong.size() - 1).getMaDatPhong();
+                    id = Integer.parseInt(ma.substring(2)) + 1;
+                    hienThiDatPhong(listDatPhong);
+                }      
             } catch (CsvValidationException ex) {
                 Logger.getLogger(DatPhongView.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ParseException ex) {
@@ -70,7 +77,6 @@ public class DatPhongView extends javax.swing.JFrame {
         if (fKH.exists()) {
             try {
                 listKH = dc.docFileKhachHang();
-
             } catch (CsvValidationException ex) {
                 Logger.getLogger(DatPhongView.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -128,6 +134,7 @@ public class DatPhongView extends javax.swing.JFrame {
         for (KhachHang item : listKH) {
             if (item.getMaKhachHang().equals(txtMaKhachHang.getText())) {
                 flag = true;
+                System.out.println(item.getMaKhachHang());
             }
         }
         if (flag == false) {
@@ -177,28 +184,7 @@ public class DatPhongView extends javax.swing.JFrame {
     public void resetForm() {
         txtMaKhachHang.setText("");
         txtMaPhong.setText("");
-        if (fKH.exists() && fDP.exists() && fP.exists()) {
-            try {
-                listDatPhong = dc.docFileDatPhong();
-                hienThiDatPhong(listDatPhong);
-                String ma = listDatPhong.get(listDatPhong.size() - 1).getMaDatPhong();
-                id = Integer.parseInt(ma.substring(2)) + 1;
-            } catch (CsvValidationException ex) {
-                Logger.getLogger(DatPhongView.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ParseException ex) {
-                Logger.getLogger(DatPhongView.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
-                listKH = dc.docFileKhachHang();
-            } catch (CsvValidationException ex) {
-                Logger.getLogger(DatPhongView.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
-                listPhong = dc.docFilePhong();
-            } catch (CsvValidationException ex) {
-                Logger.getLogger(DatPhongView.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        
     }
 
     /**

@@ -46,9 +46,17 @@ public class NhapThongTinKhachHang extends javax.swing.JFrame {
         if (f.exists()) {
             try {
                 listKH = docGhiFile.docFileKhachHang();
-                String ma = listKH.get(listKH.size() - 1).getMaKhachHang();
-                id = Integer.parseInt(ma.substring(2)) + 1;
-                hienThi(listKH);
+                if(listKH.size()==0){
+                    f.delete();
+                    NhapThongTinKhachHang kh = new NhapThongTinKhachHang();
+                    kh.setVisible(true);
+                }
+                else{
+                    String ma = listKH.get(listKH.size() - 1).getMaKhachHang();
+                    id = Integer.parseInt(ma.substring(2)) + 1;
+                    hienThi(listKH);
+                }
+                
             } catch (CsvValidationException ex) {
                 Logger.getLogger(NhapThongTinKhachHang.class.getName()).log(Level.SEVERE, null, ex);
             }

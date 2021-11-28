@@ -87,7 +87,15 @@ public class DangNhap extends javax.swing.JFrame {
         DangKy = new javax.swing.JLabel();
         btnDangNhap1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(190, 220, 227));
 
@@ -205,6 +213,7 @@ public class DangNhap extends javax.swing.JFrame {
 
     private void btnDangNhap1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhap1ActionPerformed
        reset();
+       
     }//GEN-LAST:event_btnDangNhap1ActionPerformed
 
     private void DangKyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DangKyMouseClicked
@@ -214,6 +223,25 @@ public class DangNhap extends javax.swing.JFrame {
         dk.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_DangKyMouseClicked
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+//        int choice = JOptionPane.showConfirmDialog(rootPane, "Bạn có muốn dóng chương trình không phải không?", "Hỏi", JOptionPane.YES_NO_OPTION);
+//        if (choice == JOptionPane.NO_OPTION) {
+//            this.setVisible(true);
+//            return;
+//        }
+//        else{
+//           this.setVisible(false);
+//        }
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        int choice = JOptionPane.showConfirmDialog(rootPane, "Bạn có muốn dóng chương trình không phải không?", "Hỏi", JOptionPane.YES_NO_OPTION);
+        if (choice == JOptionPane.NO_OPTION) {
+            this.setVisible(true);
+            return;
+        } 
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
