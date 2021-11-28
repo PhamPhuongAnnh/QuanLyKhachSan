@@ -37,7 +37,7 @@ public class DoanhThu extends javax.swing.JFrame {
     private static final String PATH_FILE_CSV_khachHang = curentDir + separator + "data" + separator + "KhachHang.csv";
     private static final String PATH_FILE_CSV_Phong = curentDir + separator + "data" + separator + "Phong.csv";
 
-    private DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+    private DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
     private DateFormat df1 = new SimpleDateFormat("MM");
 
     private DocGhiFile dc = new DocGhiFile();
@@ -53,6 +53,8 @@ public class DoanhThu extends javax.swing.JFrame {
 
     public DoanhThu() {
         initComponents();
+        tableModel = (DefaultTableModel) tblDatPhong.getModel();
+
         if (fKH.exists() && fDP.exists() && fP.exists()) {
             try {
                 listDatPhong = dc.docFileDatPhong();
@@ -226,9 +228,9 @@ public class DoanhThu extends javax.swing.JFrame {
         TongTienNgay();
         System.out.println(tongtien);
         txttongTien.setText(String.valueOf(tongtien));
-        tableModel.setRowCount(0);
         for (DatPhong item : listDatPhong) {
-            if (txtNgay.equals(df1.format(item.getNgayTra()))) {
+            System.out.println(df.format(item.getNgayTra()));
+            if (txtNgay.getText().equals(df.format(item.getNgayTra()))) {
                 String maDatPhong = item.getMaDatPhong();
                 String maphong = item.getMaPhong();
                 String maKhachHang = item.getMaKhachHang();
@@ -248,9 +250,8 @@ public class DoanhThu extends javax.swing.JFrame {
             System.out.println(tongtien);
             txttongTien.setText(String.valueOf(tongtien));
         }
-        tableModel.setRowCount(0);
         for (DatPhong item : listDatPhong) {
-            if (txtNgay.equals(df.format(item.getNgayTra()))) {
+            if (txtNgay.getText().equals(df1.format(item.getNgayTra()))) {
                 String maDatPhong = item.getMaDatPhong();
                 String maphong = item.getMaPhong();
                 String maKhachHang = item.getMaKhachHang();
