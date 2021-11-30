@@ -16,10 +16,10 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import testproject.model.DocGhiFile;
-import testproject.model.MaPhongComparator;
+import testproject.comparator.MaPhongComparator;
 import testproject.model.Phong;
-import testproject.model.TangComparator;
-import testproject.model.giaComparator;
+import testproject.comparator.TangComparator;
+import testproject.comparator.giaComparator;
 
 /**
  *

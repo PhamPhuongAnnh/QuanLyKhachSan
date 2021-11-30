@@ -15,10 +15,10 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import testproject.model.DocGhiFile;
-import testproject.model.HoComparator;
+import testproject.comparator.HoComparator;
 import testproject.model.KhachHang;
-import testproject.model.MaKhachHangComparator;
-import testproject.model.TuoiComparator;
+import testproject.comparator.MaKhachHangComparator;
+import testproject.comparator.TuoiComparator;
 
 /**
  *
