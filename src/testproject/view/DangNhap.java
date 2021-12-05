@@ -10,11 +10,17 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import org.controlsfx.control.textfield.AutoCompletionBinding;
+import org.controlsfx.control.textfield.TextFields;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import testproject.model.DangKy;
 import testproject.model.DocGhiFile;
 
@@ -22,7 +28,7 @@ import testproject.model.DocGhiFile;
  *
  * @author phuon
  */
-public class DangNhap extends javax.swing.JFrame {
+public class DangNhap extends javax.swing.JFrame{
 
     /**
      * Creates new form Login
@@ -34,7 +40,7 @@ public class DangNhap extends javax.swing.JFrame {
     private static final String PATH_FILE_CSV_DANGKY = curentDir + separator + "data" + separator + "dangky.csv";
     private static File file = new File(PATH_FILE_CSV_DANGKY);
     private DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-
+    private AutoCompletionBinding<String> autoComp;
     public DangNhap() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -198,9 +204,10 @@ public class DangNhap extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+   
     private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
-         if (kiemTraThongTin() == false) {
+    
+        if (kiemTraThongTin() == false) {
             JOptionPane.showMessageDialog(rootPane,
                     "Tên đăng nhập hoặc mật khẩu không đúng!!!", "Backup problem", JOptionPane.WARNING_MESSAGE);
             txtPass.requestFocus();

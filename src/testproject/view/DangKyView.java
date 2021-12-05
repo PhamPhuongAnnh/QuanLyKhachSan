@@ -293,6 +293,8 @@ public class DangKyView extends javax.swing.JFrame {
         file.delete();
         docGhiFile.ghiFileDangKy(listDangKy);
         reSet();
+          JOptionPane.showMessageDialog(rootPane,
+                    "Đăng ký thành công", "Backup problem", JOptionPane.WARNING_MESSAGE);
     }//GEN-LAST:event_btnDangKyActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -304,7 +306,6 @@ public class DangKyView extends javax.swing.JFrame {
             dn.setVisible(true);
             this.setVisible(false);
         }
-
     }//GEN-LAST:event_formWindowClosed
 
     /**

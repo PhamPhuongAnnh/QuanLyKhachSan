@@ -374,7 +374,7 @@ public class NhapThongTinPhong extends javax.swing.JFrame {
     private void ChinhSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChinhSuaActionPerformed
         StringBuilder sb = new StringBuilder();
         if (txtGiaPhong.getText().equals("")) {
-            sb.append("Mã sinh viên không được để trống\n");
+            sb.append("Giá Phòng không được để trống\n");
         }
         if (txtLoaiPhong.getText().equals("")) {
             sb.append("Loại phòng không được để trống\n");
