@@ -9,7 +9,9 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -51,6 +53,7 @@ public class DatPhongView extends javax.swing.JFrame {
     private File fP = new File(PATH_FILE_CSV_Phong);
 
     public DatPhongView() {
+        
         initComponents();
         this.setLocationRelativeTo(null);
         tableModel = (DefaultTableModel) tblDatPhong.getModel();
@@ -58,16 +61,16 @@ public class DatPhongView extends javax.swing.JFrame {
         if (fDP.exists()) {
             try {
                 listDatPhong = dc.docFileDatPhong();
-                if(listDatPhong.size() == 0){
+                if (listDatPhong.size() == 0) {
                     fDP.delete();
                     DatPhongView dp = new DatPhongView();
                     dp.setVisible(true);
-                }
-                else{
+                } else {
                     String ma = listDatPhong.get(listDatPhong.size() - 1).getMaDatPhong();
                     id = Integer.parseInt(ma.substring(2)) + 1;
                     hienThiDatPhong(listDatPhong);
-                }      
+                    resetForm();
+                }
             } catch (CsvValidationException ex) {
                 Logger.getLogger(DatPhongView.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ParseException ex) {
@@ -184,7 +187,10 @@ public class DatPhongView extends javax.swing.JFrame {
     public void resetForm() {
         txtMaKhachHang.setText("");
         txtMaPhong.setText("");
-        
+        Date date = java.util.Calendar.getInstance().getTime();
+        System.out.println("Date");
+        txtNgayDat.setDate(date);
+        txtNgayTra.setDate(date);
     }
 
     /**
@@ -567,6 +573,10 @@ public class DatPhongView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnThemThongTinActionPerformed
 
     private void btnChinhSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChinhSuaActionPerformed
+        int choice = JOptionPane.showConfirmDialog(rootPane, "Bạn có muốn chỉnh sửa thông tin không?", "Hỏi", JOptionPane.YES_NO_OPTION);
+        if (choice == JOptionPane.NO_OPTION) {
+            return;
+        }
         int selectedRow = tblDatPhong.getSelectedRow();
         if (selectedRow >= 0) {
             String maDatPhong = (String) tblDatPhong.getValueAt(selectedRow, 0);
@@ -578,7 +588,9 @@ public class DatPhongView extends javax.swing.JFrame {
                     item.setNgayTra(txtNgayTra.getDate());
                     break;
                 }
+
             }
+
             fDP.delete();
             dc.ghiFileDatPhong(listDatPhong);
             hienThiDatPhong(listDatPhong);
@@ -587,6 +599,10 @@ public class DatPhongView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnChinhSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        int choice = JOptionPane.showConfirmDialog(rootPane, "Bạn có muốn xóa  thông tin phòng  không?", "Hỏi", JOptionPane.YES_NO_OPTION);
+        if (choice == JOptionPane.NO_OPTION) {
+            return;
+        }
         int selectedRow = tblDatPhong.getSelectedRow();
         if (selectedRow >= 0) {
             String maDatPhong = (String) tblDatPhong.getValueAt(selectedRow, 0);
@@ -742,12 +758,12 @@ public class DatPhongView extends javax.swing.JFrame {
             dc.ghiFileDatPhong(listDatPhong);
             hienThiDatPhong(listDatPhong);
         }
-        
+
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
     /**
-         * @param args the command line arguments
-         */
+     * @param args the command line arguments
+     */
     public static void main() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
