@@ -214,7 +214,6 @@ public class DangNhap extends javax.swing.JFrame{
             return;
         }
         Menu.main();
-        System.out.println("a");
         this.dispose();
     }//GEN-LAST:event_btnDangNhapActionPerformed
 

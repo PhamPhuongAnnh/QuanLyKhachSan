@@ -516,7 +516,10 @@ public class NhapThongTinKhachHang extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void txtHoTenFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHoTenFocusLost
-
+        if(isNumeric(txtHoTen.getText()) == true){
+            JOptionPane.showConfirmDialog(rootPane, "Hãy nhập đúng định dạng","Cảnh báo", JOptionPane.WARNING_MESSAGE);
+            txtHoTen.requestFocus();
+        }
     }//GEN-LAST:event_txtHoTenFocusLost
 //kích ở bảng để hiện ra thông tin 
     private void tblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseClicked

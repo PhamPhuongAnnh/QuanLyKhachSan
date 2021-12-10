@@ -188,7 +188,6 @@ public class DatPhongView extends javax.swing.JFrame {
         txtMaKhachHang.setText("");
         txtMaPhong.setText("");
         Date date = java.util.Calendar.getInstance().getTime();
-        System.out.println("Date");
         txtNgayDat.setDate(date);
         txtNgayTra.setDate(date);
     }
